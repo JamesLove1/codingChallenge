@@ -23,4 +23,5 @@ def test_Eight_Operations():
     listUrl.append("https://en.wikipedia.org/wiki/Shenzhen")
     listUrl.append("https://en.wikipedia.org/wiki/San_Francisco")
 
-    operations(listUrl)
+    output = operations(listUrl)
+

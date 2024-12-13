@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 
 QUE = queue.Queue(100)
+RES = {}
 
 class Producer():
     def __init__(self, que, urlList):
@@ -25,40 +26,32 @@ class Producer():
         self.que.put(None)
 
 
-
-
 class Consumer():
-    def __init__(self, que):
+    def __init__(self, que, res):
         self.que = que
+        self.res = res
 
     def consume(self):
-       
-        res = {}
 
         output = self.que.get()
         while output is not None:
-            
-            # print(output) 
-            res[output[0]] = [] 
+
+            self.res[output[0]] = [] 
 
             soup = BeautifulSoup(output[1], 'html.parser')
             links = soup.find_all('a')
 
-            # Get the href attributes
             for link in links:
-                res[output[0]].append(link.get('href'))
+                self.res[output[0]].append(link.get('href'))
 
 
             output = self.que.get()
 
-        print(res['https://en.wikipedia.org/wiki/San_Francisco'])
-        return res.items()
-         
 
 def operations(urlsList):
 
     p = Producer(QUE, urlsList)
-    c = Consumer(QUE)
+    c = Consumer(QUE, RES)
 
     t1 = threading.Thread(target=p.produce)
     t2 = threading.Thread(target=c.consume)
@@ -69,7 +62,9 @@ def operations(urlsList):
     t1.join()
     t2.join()
 
-# if __name__ == "__main__":
+    return RES   
 
-#     operations()
+if __name__ == "__main__":
+
+    print(operations())
     
