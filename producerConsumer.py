@@ -2,6 +2,7 @@ import queue
 import threading
 import requests
 from bs4 import BeautifulSoup
+import sys
 
 class Producer():
     def __init__(self, que, urlList):
@@ -66,13 +67,13 @@ def operations(urlsList):
 
 if __name__ == "__main__":
 
-    """
-    Append list to include more links. 
-    """
-    listUrl = []
-    listUrl.append("https://en.wikipedia.org/wiki/Rubber_duck")
+    if len(sys.argv) < 2:
+        print("Usage: script.py <filename> <URL/s>")
+        sys.exit(1)
+
+    urlList = sys.argv[1:]
     
-    output = operations(listUrl)
+    output = operations(urlList)
 
     print(output.items())
     
