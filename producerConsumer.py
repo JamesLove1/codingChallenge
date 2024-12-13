@@ -64,7 +64,15 @@ def operations(urlsList):
 
     return globalRes   
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
 
-    # print(operations())
+    """
+    Append list to include more links. 
+    """
+    listUrl = []
+    listUrl.append("https://en.wikipedia.org/wiki/Rubber_duck")
+    
+    output = operations(listUrl)
+
+    print(output.items())
     
