@@ -3,9 +3,6 @@ import threading
 import requests
 from bs4 import BeautifulSoup
 
-QUE = queue.Queue(100)
-RES = {}
-
 class Producer():
     def __init__(self, que, urlList):
         self.session = requests.Session()
@@ -50,8 +47,11 @@ class Consumer():
 
 def operations(urlsList):
 
-    p = Producer(QUE, urlsList)
-    c = Consumer(QUE, RES)
+    globalQue = queue.Queue(100)
+    globalRes = {}
+
+    p = Producer(globalQue, urlsList)
+    c = Consumer(globalQue, globalRes)
 
     t1 = threading.Thread(target=p.produce)
     t2 = threading.Thread(target=c.consume)
@@ -62,7 +62,7 @@ def operations(urlsList):
     t1.join()
     t2.join()
 
-    return RES   
+    return globalRes   
 
 # if __name__ == "__main__":
 
