@@ -26,3 +26,6 @@ def test_Eight_Operations():
 
     output = operations(listUrl)
 
+
+# test_Eight_Operations
+# test_OneOperations()
